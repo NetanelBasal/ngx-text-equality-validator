@@ -1,6 +1,6 @@
 #### Angular compare text fields validator - useful for password match fields
 
-#Installation 
+# Installation 
 
 - `npm install --save ngx-text-equality-validator`  
 
@@ -8,7 +8,7 @@
 
 - Add the module to your application
 
-#Usage 
+# Usage 
 
 ### Model driven
 
