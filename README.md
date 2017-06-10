@@ -1,12 +1,16 @@
 #### Angular compare text fields validator - useful for password match fields
 
-`npm install --save ngx-text-equality-validator`  
+#Installation 
 
-`import { TextEqualityValidatorModule  } from "ngx-text-equality-validator";`  
+- `npm install --save ngx-text-equality-validator`  
 
-Add the module to your application
+- `import { TextEqualityValidatorModule  } from "ngx-text-equality-validator";`  
 
-#### Model driven
+- Add the module to your application
+
+#Usage 
+
+### Model driven
 
 ```html
  <form novalidate [formGroup]="signUpForm">
@@ -33,7 +37,7 @@ export class AppComponent {
 }
 ```
 
-#### Template driven
+### Template driven
 ```html
 <form novalidate #form="ngForm">
   <input type="text"
