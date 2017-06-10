@@ -1,0 +1,4 @@
+coverage
+dist/src
+debug.log
+node_modules
