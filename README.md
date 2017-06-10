@@ -50,3 +50,5 @@ export class AppComponent {
 </form>
 
 ```
+
+- AOT compatible. 
