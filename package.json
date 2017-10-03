@@ -1,6 +1,6 @@
 {
   "name": "ngx-text-equality-validator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Angular, compare text fields validator - useful for password match fields, an Angular library",
   "main": "dist/ngx-text-equality-validator.bundle.js",
   "jsnext:main": "dist/ngx-text-equality-validator.module.js",

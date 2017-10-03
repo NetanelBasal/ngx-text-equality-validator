@@ -1,6 +1,6 @@
 import { Directive, forwardRef } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
-import { Input } from "@angular/core";
+import { Input, OnDestroy } from '@angular/core';
 
 @Directive({
   selector: '[validateEqualTo][ngModel],[validateEqualTo][formControlName]',
@@ -8,9 +8,10 @@ import { Input } from "@angular/core";
     {provide: NG_VALIDATORS, useExisting: forwardRef(() => TextEqualityValidatorDirective), multi: true}
   ]
 })
-export class TextEqualityValidatorDirective implements Validator {
+export class TextEqualityValidatorDirective implements Validator, OnDestroy {
   @Input() validateEqualTo : string;
   private _onChange : () => void;
+  private subscription;
   oldVal : string;
 
   registerOnValidatorChange( fn : () => void ) {
@@ -23,17 +24,20 @@ export class TextEqualityValidatorDirective implements Validator {
    * @returns {{validateEqual: boolean}|null}
    */
   validate( c : AbstractControl ) {
-    let passwordVal = c.value;
+    let eleVal = c.value;
     let repeatEle = c.root.get(this.validateEqualTo);
-    if( repeatEle ) {
+    if ( repeatEle ) {
       this.oldVal = repeatEle.value;
     }
-    c.root.valueChanges.subscribe(changes => {
-      if( this.oldVal !== changes[this.validateEqualTo] ) {
-        this._onChange();
-      }
-    });
-    return this.checkEquality(passwordVal, repeatEle);
+    if ( !this.subscription ) {
+      this.subscription = c.root.valueChanges.subscribe(changes => {
+        if ( this.oldVal !== changes[ this.validateEqualTo ] ) {
+          this._onChange();
+        }
+      });
+    }
+
+    return this.checkEquality(eleVal, repeatEle);
 
   }
 
@@ -43,11 +47,15 @@ export class TextEqualityValidatorDirective implements Validator {
    * @param repeatEle
    * @returns {any}
    */
-  checkEquality( passwordVal: string, repeatEle: any ) {
-    if( repeatEle && passwordVal !== repeatEle.value ) return {
+  checkEquality( passwordVal : string, repeatEle : any ) {
+    if ( repeatEle && passwordVal !== repeatEle.value ) return {
       validateEqual: true
     }
     return null;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }
